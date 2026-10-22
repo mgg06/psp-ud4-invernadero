@@ -6,7 +6,7 @@ public class Humedad extends Sensor {
     public static final double MIN_GENERADO = 40.0;
     public static final double MAX_GENERADO = 90.0;
 
-    public Humedad(){
+    public Humedad() {
         // Datos de la tabla para humedad: 600 ms, rango correcto de 50.0 a 80.0
         super("Humedad", "%", 600, 50.0, 80.0);
     }

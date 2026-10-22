@@ -2,7 +2,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 // Usamos "extends" para heredar de sensor, como sensor ya implementa Runnable, temperatura también será automáticamente
 // una tarea (Runnable)
-public class Temperatura extends Sensor{
+public class Temperatura extends Sensor {
     // CONSTANTES
     // Si miramos la tabla, la temperatura genera valores entre 15.0 y 35.0
     public static final double MIN_GENERADO = 15.0;

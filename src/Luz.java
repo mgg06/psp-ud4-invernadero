@@ -1,6 +1,6 @@
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Luz extends Sensor{
+public class Luz extends Sensor {
 
     // Según la tabla, genera valores de 0 a 1000. Aunque ponga 0, usamos 0.0, para mantener el formato decimal (double)
     public static final double MIN_GENERADO = 0.0;
