@@ -103,7 +103,27 @@ public abstract class Sensor implements Runnable {
                 return;
             }
         }
+
     }
 
+    // MÉTODO INFORME
+    // Este método debe devolver una línea de texto con las estadísticas
+    public String informe(){
+        // Calculamos la media
+        // Si el número de lecturas es 0 (por ejemplo, si falló antes de empezar) la media es 0.0 para evitar
+        // dividir entre cero. Si es distinto a 0, calculamos sumando los valores y dividiendo entre la cantidad
+        double media = 0.0;
+        if(numLecturas > 0){
+            media = sumaValores / numLecturas;
+        }
+
+        // Devolvemos los valores
+        return "INFORME: "+nombre+" -> "+
+                "Lecturas: "+numLecturas+
+                " | Media: "+media+
+                " | Min: "+minimo+
+                " | Max: "+maximo+
+                " | Alertas: "+numAlertas;
+    }
 
 }
