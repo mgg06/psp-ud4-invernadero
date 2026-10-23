@@ -46,5 +46,44 @@ public class Fase3_Experimentos {
         // 4. Muestra riego.getState() al final
         // El método getState() nos devuelve en qué estado de su ciclo de vida está el hilo
         System.out.println("Estado del hilo riegoB al terminar: "+riegoB.getState());
+
+        System.out.println("\n"+"EXPERIMENTO C");
+
+        // 1. Arranca un riego
+        ProgramadoRiego riegoC = new ProgramadoRiego();
+        // Le ponemos 1 solo ciclo para que termine rápido
+        riegoC.ciclosTotales = 1;
+
+        System.out.println("Arrancando riegoC por primera vez...");
+        riegoC.start();
+
+        // 2. Espera a que termine
+        try{
+            riegoC.join();
+        } catch (InterruptedException e){
+            System.out.println("Espera interrumpida");
+        }
+
+        System.out.println("El riego C ha terminado. Su estado actual es: "+riegoC.getState());
+
+        // 3. Vuelve a llamar a start() sobre el mismo objeto
+        System.out.println("Intentando arrancar riego C por segunda vez...");
+
+        // Usamos try-catch para "capturar" la excepción que pide el enunciado
+        try{
+            riegoC.start();
+            // Capturamos cualquier excepción que salte
+        }catch(Exception e){
+            // Le decimos que la capture, que la muestre y que explique que significa
+            System.out.println("EXCEPCIÓN CAPTURADA");
+            // Muestra el nombre del error
+            System.out.println("Tipo de excepción: "+e.getClass().getSimpleName());
+            System.out.println("Explicación: "+e.getMessage());
+
+            // CONTESTACIÓN: Salta un "IllegalThreadStateException" Un hilo que ha llegado a estado TERMINATED, es
+            // un hilo muerto que no puede resucitar. Si se quiere "volver a regar", se tiene que crear un
+            // ProgramadoRiego() nuevo
+
+        }
     }
 }
