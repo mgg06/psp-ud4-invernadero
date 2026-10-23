@@ -23,5 +23,28 @@ public class Fase3_Experimentos {
         // 4. Vuelve a imprimirlo
         // Ahora el "hilo-ExpA" ya ha terminado todo su trabajo
         System.out.println("Informe después de esperar: " + sensorA.informe());
+
+        System.out.println("\n"+"EXPERIMENTO B");
+
+        // 1. Crea un riego de 3 ciclos
+        ProgramadoRiego riegoB = new ProgramadoRiego();
+        // Modificamos los ciclos para este experimento
+        riegoB.ciclosTotales = 3;
+
+        // 2. Mide cuánto tarda
+        long tiempoInicioB = System.currentTimeMillis();
+
+        // 3. Llama a riego.run() en vez de riego.start()
+        System.out.println("Llamando a run() directamente...");
+        riegoB.run();
+
+        // Calculamos el tiempo que ha tardado
+        long tiempoFinB = System.currentTimeMillis();
+        long tiempoTotalB = tiempoFinB - tiempoInicioB;
+        System.out.println("Tiempo total experimento B: "+tiempoTotalB+" ms");
+
+        // 4. Muestra riego.getState() al final
+        // El método getState() nos devuelve en qué estado de su ciclo de vida está el hilo
+        System.out.println("Estado del hilo riegoB al terminar: "+riegoB.getState());
     }
 }

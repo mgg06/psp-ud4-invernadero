@@ -3,7 +3,8 @@ public class ProgramadoRiego extends Thread {
 
     // CONSTANTES
     // 5 ciclos, 700 ms de espera, 2.5 litros por apertura
-    public static final int CICLOS_TOTALES = 5;
+        // Le quito el final para poder cambiarlo en los experimentos
+    public /* static final */ int ciclosTotales = 5;
     public static final int PERIODO_MS = 700;
     public static final double LITROS_POR_APERTURA = 2.5;
 
@@ -30,7 +31,7 @@ public class ProgramadoRiego extends Thread {
     @Override
     public void run(){
         // Hacemos 5 ciclos
-        for(int i = 0; i < CICLOS_TOTALES; i++){
+        for(int i = 0; i < ciclosTotales; i++){
             ciclosRealizados++;
             String estadoValvula = "";
 
