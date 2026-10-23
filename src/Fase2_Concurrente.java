@@ -1,6 +1,6 @@
 public class Fase2_Concurrente {
     public static void main(String[] args){
-        System.out.println("INICIO FASE 2: CONCURRENTE");
+        System.out.println ("INICIO FASE 2: CONCURRENTE");
 
         // 1. Creamos objetos nuevos de los sensores y del riego. Temperatura, Humedad y Luz son tareas (runnable)
         // Riego ya es un hilo (Thread)
