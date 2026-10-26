@@ -18,6 +18,8 @@ public class Fase3_Experimentos {
             hiloA.join();
         } catch (InterruptedException e){
             System.out.println("Espera interrumpida");
+            // Salimos para no mostrar datos finales sin haber terminado la espera
+            return;
         }
 
         // 4. Vuelve a imprimirlo
@@ -27,7 +29,7 @@ public class Fase3_Experimentos {
         System.out.println("\n"+"EXPERIMENTO B");
 
         // 1. Crea un riego de 3 ciclos
-        ProgramadoRiego riegoB = new ProgramadoRiego();
+        ProgramadorRiego riegoB = new ProgramadorRiego();
         // Modificamos los ciclos para este experimento
         riegoB.ciclosTotales = 3;
 
@@ -50,7 +52,7 @@ public class Fase3_Experimentos {
         System.out.println("\n"+"EXPERIMENTO C");
 
         // 1. Arranca un riego
-        ProgramadoRiego riegoC = new ProgramadoRiego();
+        ProgramadorRiego riegoC = new ProgramadorRiego();
         // Le ponemos 1 solo ciclo para que termine rápido
         riegoC.ciclosTotales = 1;
 
@@ -62,6 +64,8 @@ public class Fase3_Experimentos {
             riegoC.join();
         } catch (InterruptedException e){
             System.out.println("Espera interrumpida");
+            // Salimos para no mostrar datos finales sin haber terminado la espera
+            return;
         }
 
         System.out.println("El riego C ha terminado. Su estado actual es: "+riegoC.getState());
@@ -72,18 +76,19 @@ public class Fase3_Experimentos {
         // Usamos try-catch para "capturar" la excepción que pide el enunciado
         try{
             riegoC.start();
-            // Capturamos cualquier excepción que salte
-        }catch(Exception e){
+            // Capturamos la excepción de intentar arrancar otra vez el mismo hilo
+        }catch(IllegalThreadStateException e){
             // Le decimos que la capture, que la muestre y que explique que significa
             System.out.println("EXCEPCIÓN CAPTURADA");
             // Muestra el nombre del error
             System.out.println("Tipo de excepción: "+e.getClass().getSimpleName());
-            System.out.println("Explicación: "+e.getMessage());
+            System.out.println("Explicación: el mismo hilo no se puede arrancar dos veces. Para volver a regar hay que crear otro ProgramadorRiego.");
 
             // CONTESTACIÓN: Salta un "IllegalThreadStateException" Un hilo que ha llegado a estado TERMINATED, es
             // un hilo muerto que no puede resucitar. Si se quiere "volver a regar", se tiene que crear un
-            // ProgramadoRiego() nuevo
+            // ProgramadorRiego() nuevo
 
         }
     }
 }
+

@@ -1,10 +1,11 @@
 // Al heredar de Thread, este objeto es un hilo por sí mismo, no solo una tarea que necesite ser metida en otro hilo
-public class ProgramadoRiego extends Thread {
+public class ProgramadorRiego extends Thread {
 
-    // CONSTANTES
+    // CONSTANTES Y NÚMERO DE CICLOS
     // 5 ciclos, 700 ms de espera, 2.5 litros por apertura
-        // Le quito el final para poder cambiarlo en los experimentos
-    public /* static final */ int ciclosTotales = 5;
+    public static final int CICLOS_TOTALES = 5;
+    // Los experimentos pueden elegir otro número de ciclos sin cambiar la constante
+    public int ciclosTotales = CICLOS_TOTALES;
     public static final int PERIODO_MS = 700;
     public static final double LITROS_POR_APERTURA = 2.5;
 
@@ -16,7 +17,7 @@ public class ProgramadoRiego extends Thread {
     private boolean estaAbierta;
 
     // CONSTRUCTOR
-    public ProgramadoRiego(){
+    public ProgramadorRiego(){
         // Usamos super() para darle el nombre "riego" al hilo
         super("riego");
         // Inicializamos los contadores a 0
@@ -45,9 +46,8 @@ public class ProgramadoRiego extends Thread {
             }
 
             // LOG DEL RIEGO
-            // Como esta clase hereda directamente de Thread, si tenemos el método getName() a nuestra disposición
-            // directamente. No hace falta preguntar al currentThread()
-            System.out.println("[" + getName() + "] Ciclo " + ciclosRealizados + " -> Válvula: " + estadoValvula);
+            // Preguntamos qué hilo ejecuta el ciclo. Si llamamos a run() directamente, será main
+            System.out.println("[" + Thread.currentThread().getName() + "] Ciclo " + ciclosRealizados + " -> Válvula: " + estadoValvula);
 
             // CAMBIO DE ESTADO (El alternador)
             // Si estaba abierta (true), la ponemos a false (cerrada) para la próxima vuelta. Si estaba a false, pasa a
@@ -70,3 +70,4 @@ public class ProgramadoRiego extends Thread {
         return "INFORME Riego -> Ciclos: "+ciclosRealizados+" | Litros gastados: " + litrosTotales + " L";
     }
 }
+

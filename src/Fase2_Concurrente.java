@@ -7,7 +7,7 @@ public class Fase2_Concurrente {
         Temperatura tareaTemp = new Temperatura();
         Humedad tareaHum = new Humedad();
         Luz tareaLuz = new Luz();
-        ProgramadoRiego hiloRiego = new ProgramadoRiego();
+        ProgramadorRiego hiloRiego = new ProgramadorRiego();
 
         // 2. Metemos cada sensor en un Thread
         Thread hiloTemp = new Thread(tareaTemp, "sensor-Temperatura");
@@ -33,6 +33,8 @@ public class Fase2_Concurrente {
             hiloRiego.join();
         } catch (InterruptedException e){
             System.out.println("El hilo main fue interrumpido mientras esperaba");
+            // Salimos para no mostrar datos finales sin haber terminado la espera
+            return;
         }
 
         // Una vez que los cuatro hilos han terminado, y main ha salido del join, tomamos el tiempo final
@@ -50,3 +52,4 @@ public class Fase2_Concurrente {
         System.out.println("\nTIEMPO TOTAL CONCURRENTE: " + tiempoTotal + " ms");
     }
 }
+

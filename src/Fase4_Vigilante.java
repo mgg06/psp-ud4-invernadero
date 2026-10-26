@@ -8,7 +8,7 @@ public class Fase4_Vigilante {
         Luz tareaLuz = new Luz();
 
         // 2. Creamos el hilo del riego (este no es tarea, es hilo directo)
-        ProgramadoRiego hiloRiego = new ProgramadoRiego();
+        ProgramadorRiego hiloRiego = new ProgramadorRiego();
 
         // 3. Metemos las tareas en hilos para poder monitorizar su estado
         Thread hiloTemp = new Thread(tareaTemp,"sensor-Temperatura");
@@ -51,6 +51,8 @@ public class Fase4_Vigilante {
         System.out.println("\n"+"[main] Estados antes del start():");
         // Nos sale NEW
         System.out.println("Temperatura: " + hiloTemp.getState());
+        System.out.println("Humedad: " + hiloHum.getState());
+        System.out.println("Luz: " + hiloLuz.getState());
         System.out.println("Riego: " + hiloRiego.getState());
 
         // Arrancamos los dispositivos
@@ -67,12 +69,16 @@ public class Fase4_Vigilante {
             hiloRiego.join();
         }catch(InterruptedException e){
             System.out.println("Main interrumpido");
+            // Salimos para no mostrar datos finales sin haber terminado la espera
+            return;
         }
 
         // Mostramos los estados después de esperarlos
         System.out.println("\n"+"[main] Estados después del join():");
         // Nos sale terminated
         System.out.println("Temperatura: " + hiloTemp.getState());
+        System.out.println("Humedad: " + hiloHum.getState());
+        System.out.println("Luz: " + hiloLuz.getState());
         System.out.println("Riego: " + hiloRiego.getState());
 
         // En cuanto el hilo main termine esta línea, el programa se va a acabar. Como hiloVigilante es un demonio,
@@ -80,3 +86,4 @@ public class Fase4_Vigilante {
 
     }
 }
+

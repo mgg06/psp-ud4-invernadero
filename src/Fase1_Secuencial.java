@@ -5,7 +5,7 @@ public class Fase1_Secuencial {
         Temperatura sensorTemp = new Temperatura();
         Humedad sensorHum = new Humedad();
         Luz sensorLuz = new Luz();
-        ProgramadoRiego riego = new ProgramadoRiego();
+        ProgramadorRiego riego = new ProgramadorRiego();
 
         // 2. Tomamos el tiempo exacto antes de empezar. Así calculamos cuánto tarda todo
         long tiempoInicio = System.currentTimeMillis();
@@ -42,3 +42,4 @@ public class Fase1_Secuencial {
         // (main) se lo está tragando todo solo
     }
 }
+
