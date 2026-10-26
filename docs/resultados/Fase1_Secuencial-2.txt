@@ -1,0 +1,37 @@
+INICIO FASE 1: SECUENCIAL
+
+Arrancando temperatura
+[1793033140471] [main] Temperatura: 33.484188501817144 ºC ⚠ ALERTA
+[1793033140902] [main] Temperatura: 17.141368655684623 ºC ⚠ ALERTA
+[1793033141302] [main] Temperatura: 15.074057125473404 ºC ⚠ ALERTA
+[1793033141717] [main] Temperatura: 28.146500326409374 ºC
+[1793033142118] [main] Temperatura: 20.144932021369247 ºC
+
+Arrancando humedad
+[1793033142519] [main] Humedad: 63.965971520076295 %
+[1793033143122] [main] Humedad: 60.52484647738661 %
+[1793033143735] [main] Humedad: 82.31343037379469 % ⚠ ALERTA
+[1793033144336] [main] Humedad: 58.540351664791416 %
+[1793033144938] [main] Humedad: 86.36689381016856 % ⚠ ALERTA
+
+Arrancando luz
+[1793033145551] [main] Luz: 146.8740427333167 lux ⚠ ALERTA
+[1793033146051] [main] Luz: 840.9599194630721 lux
+[1793033146568] [main] Luz: 367.71594527612484 lux
+[1793033147084] [main] Luz: 994.1335931947061 lux ⚠ ALERTA
+[1793033147585] [main] Luz: 700.4787464885661 lux
+
+Arrancando riego
+[main] Ciclo 1 -> Válvula: ABIERTA
+[main] Ciclo 2 -> Válvula: cerrada
+[main] Ciclo 3 -> Válvula: ABIERTA
+[main] Ciclo 4 -> Válvula: cerrada
+[main] Ciclo 5 -> Válvula: ABIERTA
+
+INFORMES FINALES
+INFORME: Temperatura -> Lecturas: 5 | Media: 22.79820932615076 | Min: 15.074057125473404 | Max: 33.484188501817144 | Alertas: 3
+INFORME: Humedad -> Lecturas: 5 | Media: 70.34229876924351 | Min: 58.540351664791416 | Max: 86.36689381016856 | Alertas: 2
+INFORME: Luz -> Lecturas: 5 | Media: 610.0324494311573 | Min: 146.8740427333167 | Max: 994.1335931947061 | Alertas: 2
+INFORME Riego -> Ciclos: 5 | Litros gastados: 7.5 L
+
+TIEMPO TOTAL SECUENCIAL: 11164 ms

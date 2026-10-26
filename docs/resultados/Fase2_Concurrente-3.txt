@@ -1,0 +1,30 @@
+INICIO FASE 2: CONCURRENTE
+Arrancando todos los sistemas en paralelo
+[riego] Ciclo 1 -> Válvula: ABIERTA
+[1793033170385] [sensor-Humedad] Humedad: 83.10518361273097 % ⚠ ALERTA
+[1793033170385] [sensor-Temperatura] Temperatura: 29.24420446856732 ºC
+[1793033170385] [sensor-Luz] Luz: 790.2857788671108 lux
+[1793033170834] [sensor-Temperatura] Temperatura: 26.838480667264886 ºC
+[1793033170934] [sensor-Luz] Luz: 125.6587084426538 lux ⚠ ALERTA
+[1793033171034] [sensor-Humedad] Humedad: 89.83014184630436 % ⚠ ALERTA
+[riego] Ciclo 2 -> Válvula: cerrada
+[1793033171250] [sensor-Temperatura] Temperatura: 26.05278991515491 ºC
+[1793033171434] [sensor-Luz] Luz: 440.6542902547802 lux
+[1793033171636] [sensor-Humedad] Humedad: 50.820158537675816 %
+[1793033171651] [sensor-Temperatura] Temperatura: 17.254760728939814 ºC ⚠ ALERTA
+[riego] Ciclo 3 -> Válvula: ABIERTA
+[1793033171935] [sensor-Luz] Luz: 721.6404853883254 lux
+[1793033172052] [sensor-Temperatura] Temperatura: 29.689173463778907 ºC
+[1793033172250] [sensor-Humedad] Humedad: 74.6044810679281 %
+[1793033172435] [sensor-Luz] Luz: 821.1798004623623 lux
+[riego] Ciclo 4 -> Válvula: cerrada
+[1793033172851] [sensor-Humedad] Humedad: 84.60132090344538 % ⚠ ALERTA
+[riego] Ciclo 5 -> Válvula: ABIERTA
+
+INFORMES FINALES CONCURRENTES
+INFORME: Temperatura -> Lecturas: 5 | Media: 25.815881848741167 | Min: 17.254760728939814 | Max: 29.689173463778907 | Alertas: 1
+INFORME: Humedad -> Lecturas: 5 | Media: 76.59225719361693 | Min: 50.820158537675816 | Max: 89.83014184630436 | Alertas: 3
+INFORME: Luz -> Lecturas: 5 | Media: 579.8838126830466 | Min: 125.6587084426538 | Max: 821.1798004623623 | Alertas: 1
+INFORME Riego -> Ciclos: 5 | Litros gastados: 7.5 L
+
+TIEMPO TOTAL CONCURRENTE: 3566 ms

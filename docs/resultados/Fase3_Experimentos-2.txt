@@ -1,0 +1,25 @@
+EXPERIMENTO A
+[1793033179551] [hilo-ExpA] Luz: 223.80967725025315 lux
+Informe antes de esperar: INFORME: Luz -> Lecturas: 0 | Media: 0.0 | Min: 0.0 | Max: 0.0 | Alertas: 0
+[1793033180100] [hilo-ExpA] Luz: 551.7450214049479 lux
+[1793033180602] [hilo-ExpA] Luz: 546.7314048507363 lux
+[1793033181116] [hilo-ExpA] Luz: 406.2732257679045 lux
+[1793033181617] [hilo-ExpA] Luz: 254.45364980595153 lux
+Informe después de esperar: INFORME: Luz -> Lecturas: 5 | Media: 396.60259581595864 | Min: 223.80967725025315 | Max: 551.7450214049479 | Alertas: 0
+
+EXPERIMENTO B
+Llamando a run() directamente...
+[main] Ciclo 1 -> Válvula: ABIERTA
+[main] Ciclo 2 -> Válvula: cerrada
+[main] Ciclo 3 -> Válvula: ABIERTA
+Tiempo total experimento B: 2162 ms
+Estado del hilo riegoB al terminar: NEW
+
+EXPERIMENTO C
+Arrancando riegoC por primera vez...
+[riego] Ciclo 1 -> Válvula: ABIERTA
+El riego C ha terminado. Su estado actual es: TERMINATED
+Intentando arrancar riego C por segunda vez...
+EXCEPCIÓN CAPTURADA
+Tipo de excepción: IllegalThreadStateException
+Explicación: el mismo hilo no se puede arrancar dos veces. Para volver a regar hay que crear otro ProgramadorRiego.

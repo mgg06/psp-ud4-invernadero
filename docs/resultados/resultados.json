@@ -1,0 +1,137 @@
+[
+  {
+    "fase": "Fase1_Secuencial",
+    "repeticion": 1,
+    "proceso_ms": 11317.65,
+    "tiempo_programa_ms": [
+      "11166"
+    ],
+    "estados": [],
+    "salida": 0
+  },
+  {
+    "fase": "Fase1_Secuencial",
+    "repeticion": 2,
+    "proceso_ms": 11270.21,
+    "tiempo_programa_ms": [
+      "11164"
+    ],
+    "estados": [],
+    "salida": 0
+  },
+  {
+    "fase": "Fase1_Secuencial",
+    "repeticion": 3,
+    "proceso_ms": 11297.13,
+    "tiempo_programa_ms": [
+      "11191"
+    ],
+    "estados": [],
+    "salida": 0
+  },
+  {
+    "fase": "Fase2_Concurrente",
+    "repeticion": 1,
+    "proceso_ms": 3698.71,
+    "tiempo_programa_ms": [
+      "3566"
+    ],
+    "estados": [],
+    "salida": 0
+  },
+  {
+    "fase": "Fase2_Concurrente",
+    "repeticion": 2,
+    "proceso_ms": 3643.2,
+    "tiempo_programa_ms": [
+      "3535"
+    ],
+    "estados": [],
+    "salida": 0
+  },
+  {
+    "fase": "Fase2_Concurrente",
+    "repeticion": 3,
+    "proceso_ms": 3661.53,
+    "tiempo_programa_ms": [
+      "3566"
+    ],
+    "estados": [],
+    "salida": 0
+  },
+  {
+    "fase": "Fase3_Experimentos",
+    "repeticion": 1,
+    "proceso_ms": 5511.11,
+    "tiempo_programa_ms": [
+      "2146"
+    ],
+    "estados": [
+      "NEW",
+      "TERMINATED"
+    ],
+    "salida": 0
+  },
+  {
+    "fase": "Fase3_Experimentos",
+    "repeticion": 2,
+    "proceso_ms": 5518.66,
+    "tiempo_programa_ms": [
+      "2162"
+    ],
+    "estados": [
+      "NEW",
+      "TERMINATED"
+    ],
+    "salida": 0
+  },
+  {
+    "fase": "Fase3_Experimentos",
+    "repeticion": 3,
+    "proceso_ms": 5491.39,
+    "tiempo_programa_ms": [
+      "2145"
+    ],
+    "estados": [
+      "NEW",
+      "TERMINATED"
+    ],
+    "salida": 0
+  },
+  {
+    "fase": "Fase4_Vigilante",
+    "repeticion": 1,
+    "proceso_ms": 3645.89,
+    "tiempo_programa_ms": [],
+    "estados": [
+      "NEW",
+      "TERMINATED",
+      "TIMED_WAITING"
+    ],
+    "salida": 0
+  },
+  {
+    "fase": "Fase4_Vigilante",
+    "repeticion": 2,
+    "proceso_ms": 3646.72,
+    "tiempo_programa_ms": [],
+    "estados": [
+      "NEW",
+      "TERMINATED",
+      "TIMED_WAITING"
+    ],
+    "salida": 0
+  },
+  {
+    "fase": "Fase4_Vigilante",
+    "repeticion": 3,
+    "proceso_ms": 3654.2,
+    "tiempo_programa_ms": [],
+    "estados": [
+      "NEW",
+      "TERMINATED",
+      "TIMED_WAITING"
+    ],
+    "salida": 0
+  }
+]
