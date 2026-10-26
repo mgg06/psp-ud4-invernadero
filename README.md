@@ -50,15 +50,13 @@ Uso JDK 21 y ejecuto el método `main` de la fase que quiero comprobar. En Intel
 - `Fase3_Experimentos`: experimentos A, B y C.
 - `Fase4_Vigilante`: consulta de estados con el vigilante demonio.
 
-Las mediciones registradas se han realizado con Microsoft OpenJDK 21.0.12.1. La compilación y las ejecuciones están comprobadas por terminal. La ejecución desde IntelliJ queda pendiente de comprobar en mi equipo.
+Las mediciones registradas se han realizado con Microsoft OpenJDK 21.0.12.1. La compilación y las ejecuciones están comprobadas por terminal. La fase 2 también se ha ejecutado desde IntelliJ, como se ve en la captura.
 
 ## Captura
 
-Esta captura muestra una ejecución real de `Fase2_Concurrente` con Microsoft OpenJDK 21.0.12.1. La salida del proceso Java se muestra en un visor local, no en la consola de IntelliJ. Se ven las lecturas intercaladas, los tres informes con cinco lecturas, los cinco ciclos de riego, los 7,5 litros y un tiempo de 3.566 ms. La ejecución terminó con código de salida 0.
+Esta es una ejecución de `Fase2_Concurrente` en la consola de IntelliJ. Se ven las lecturas intercaladas, los informes de los tres sensores con cinco lecturas, los cinco ciclos de riego y los 7,5 litros. En esta ejecución el tiempo total fue de 3.540 ms y el programa terminó con código de salida 0.
 
 ![Ejecución real de la fase 2](docs/capturas/fase2-ejecucion.png)
-
-La salida completa de esa ejecución también se conserva en [el registro de la captura](docs/resultados/fase2-captura.txt).
 
 ## Resultados
 
