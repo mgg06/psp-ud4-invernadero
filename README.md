@@ -6,32 +6,26 @@ En esta práctica trabajo con un invernadero simulado. Tengo tres sensores que g
 
 Mi objetivo es comparar dos maneras de hacer el mismo trabajo. En la primera, ejecuto todos los dispositivos uno detrás de otro. En la segunda, doy un hilo a cada uno para que sus esperas se solapen. Después hago tres experimentos para entender `join()`, la diferencia entre `run()` y `start()`, y lo que ocurre al intentar arrancar dos veces un mismo hilo. Por último, añado un vigilante que consulta los estados de los cuatro dispositivos.
 
-| Dispositivo | Periodo | Valores generados por el código | Rango correcto | Trabajo normal | Implementación |
-|---|---:|---|---|---|---|
-| Temperatura | 400 ms | Desde 15,0 hasta menos de 35,0 ºC | De 18 a 30 ºC, incluidos | 5 lecturas | `Temperatura extends Sensor` |
-| Humedad | 600 ms | Desde 40,0 hasta menos de 90,0 % | De 50 a 80 %, incluidos | 5 lecturas | `Humedad extends Sensor` |
-| Luz | 500 ms | Desde 0,0 hasta menos de 1000,0 lux | De 200 a 900 lux, incluidos | 5 lecturas | `Luz extends Sensor` |
-| Riego | 700 ms | ABIERTA / cerrada | No tiene umbrales | 5 ciclos | `ProgramadorRiego extends Thread` |
+Cada sensor toma cinco lecturas y tiene su propio periodo y rango:
+
+- Temperatura: cada 400 ms, genera valores desde 15,0 hasta menos de 35,0 ºC. El rango correcto va de 18 a 30 ºC.
+- Humedad: cada 600 ms, genera valores desde 40,0 hasta menos de 90,0 %. El rango correcto va de 50 a 80 %.
+- Luz: cada 500 ms, genera valores desde 0,0 hasta menos de 1000,0 lux. El rango correcto va de 200 a 900 lux.
+- Riego: hace cinco ciclos, alternando la válvula abierta y cerrada, con una espera de 700 ms después de cada ciclo.
 
 `ThreadLocalRandom.current().nextDouble(min, max)` incluye el límite inferior y excluye el superior. Uso la misma operación que propone el enunciado. Los límites del rango correcto sí se aceptan: la alerta aparece solo si el valor es menor que el mínimo o mayor que el máximo.
 
-### Cómo he organizado las clases
+El código está organizado en estas clases:
 
-| Archivo dentro de `src/` | Para qué lo utilizo |
-|---|---|
-| `Sensor.java` | Define la tarea común, las cinco lecturas, las alertas, las estadísticas y el informe. Es abstracta e implementa `Runnable`. |
-| `Temperatura.java` | Configura el periodo, la unidad y los umbrales de temperatura. Implementa `medir()`. |
-| `Humedad.java` | Hace lo mismo para humedad. |
-| `Luz.java` | Hace lo mismo para luz. |
-| `ProgramadorRiego.java` | Es el hilo del riego y guarda sus ciclos y sus litros. |
-| `Fase1_Secuencial.java` | Ejecuta los cuatro dispositivos mediante llamadas directas a `run()`. |
-| `Fase2_Concurrente.java` | Arranca los cuatro hilos, espera a todos y muestra los informes y el tiempo. |
-| `Fase3_Experimentos.java` | Ejecuta los experimentos A, B y C en ese orden. |
-| `Fase4_Vigilante.java` | Añade un hilo demonio que consulta los estados cada 300 ms aproximadamente. |
+- `Sensor.java` define la tarea común, las cinco lecturas, las alertas, las estadísticas y el informe. Es abstracta e implementa `Runnable`.
+- `Temperatura.java`, `Humedad.java` y `Luz.java` heredan de `Sensor`, configuran sus periodos, unidades y umbrales e implementan `medir()`.
+- `ProgramadorRiego.java` es el hilo del riego y guarda sus ciclos y sus litros.
+- `Fase1_Secuencial.java` ejecuta los cuatro dispositivos mediante llamadas directas a `run()`.
+- `Fase2_Concurrente.java` arranca los cuatro hilos, espera a todos y muestra los informes y el tiempo.
+- `Fase3_Experimentos.java` ejecuta los experimentos A, B y C en ese orden.
+- `Fase4_Vigilante.java` añade el hilo demonio que consulta los estados cada 300 ms aproximadamente.
 
 Los ejemplos de los cohetes y los cocineros me sirven como referencia para las dos formas de trabajar. El sensor sigue la idea del cocinero: es una tarea y necesita un `Thread`. El riego sigue la idea del cohete: el propio objeto hereda de `Thread`.
-
-### Qué guarda cada sensor
 
 En `Sensor.run()` obtengo una lectura llamando a `medir()`. La primera lectura establece tanto el mínimo como el máximo. A partir de la segunda comparo cada valor con esos extremos. También incremento el número de lecturas, sumo el valor y compruebo si debe contar como alerta.
 
@@ -41,17 +35,7 @@ El informe devuelve el nombre, las lecturas realizadas, la media, el mínimo, el
 
 El log de los sensores incluye un tiempo en milisegundos obtenido con `System.currentTimeMillis()`, el nombre del hilo que ejecuta la tarea, el nombre del sensor, el valor y su unidad. Si la lectura sale del rango correcto, añade `⚠ ALERTA`. Después de cada lectura se ejecuta `Thread.sleep(periodoMs)`, incluida la quinta lectura.
 
-### Cómo cuento el riego
-
-El riego empieza con la válvula marcada como abierta y alterna en cada ciclo:
-
-| Ciclo | Estado que muestra | Litros añadidos | Litros acumulados |
-|---:|---|---:|---:|
-| 1 | ABIERTA | 2,5 | 2,5 |
-| 2 | cerrada | 0 | 2,5 |
-| 3 | ABIERTA | 2,5 | 5,0 |
-| 4 | cerrada | 0 | 5,0 |
-| 5 | ABIERTA | 2,5 | 7,5 |
+El riego sigue esta secuencia: abierta, cerrada, abierta, cerrada y abierta. Cada apertura añade 2,5 litros, así que al terminar los cinco ciclos el total es de 7,5 litros.
 
 `CICLOS_TOTALES`, `PERIODO_MS` y `LITROS_POR_APERTURA` son constantes y por eso sus nombres están en mayúsculas. `ciclosTotales` es una variable de cada objeto que empieza con el valor de `CICLOS_TOTALES`. En los experimentos puedo ponerla a tres o a uno sin cambiar la constante de cinco.
 
@@ -59,35 +43,14 @@ Los cinco ciclos no equivalen a cinco aperturas. Solo abro tres veces, por eso e
 
 ## Cómo ejecutarlo
 
-Necesito JDK 21. Es importante comprobar tanto `java` como `javac`, porque pueden apuntar a instalaciones distintas. Para las mediciones registradas se ha utilizado Microsoft OpenJDK 21.0.12.1.
+Uso JDK 21 y ejecuto el método `main` de la fase que quiero comprobar. En IntelliJ, pulso el botón de ejecutar junto al método y selecciono la opción para ejecutar esa clase.
 
-### Desde IntelliJ IDEA
+- `Fase1_Secuencial`: ejecución de los dispositivos uno detrás de otro.
+- `Fase2_Concurrente`: ejecución de los cuatro hilos con sus informes finales.
+- `Fase3_Experimentos`: experimentos A, B y C.
+- `Fase4_Vigilante`: consulta de estados con el vigilante demonio.
 
-1. Abro el proyecto del repositorio.
-2. En la configuración del proyecto selecciono un SDK de Java 21 y nivel de lenguaje 21. El archivo `.idea/misc.xml` ya declara `JDK_21` y un SDK llamado `ms-21`, pero ese nombre tiene que corresponder con una instalación disponible en mi equipo.
-3. Compruebo que `src` está marcado como carpeta de código fuente.
-4. Compilo el proyecto.
-5. Ejecuto el método `main` de la fase que quiera comprobar: `Fase1_Secuencial`, `Fase2_Concurrente`, `Fase3_Experimentos` o `Fase4_Vigilante`.
-
-Cada fase tiene su propio punto de entrada. Ejecuto directamente la clase de la fase que quiero comprobar.
-
-### Desde una terminal con JDK 21 seleccionado
-
-Desde la carpeta raíz del repositorio puedo compilar sin Maven ni Gradle. En PowerShell:
-
-```powershell
-java -version
-javac -version
-New-Item -ItemType Directory -Force out | Out-Null
-$archivosJava = Get-ChildItem -LiteralPath .\src -Filter *.java | ForEach-Object FullName
-javac -encoding UTF-8 -d out $archivosJava
-java -cp out Fase1_Secuencial
-java -cp out Fase2_Concurrente
-java -cp out Fase3_Experimentos
-java -cp out Fase4_Vigilante
-```
-
-Compruebo que las dos primeras órdenes indican versión 21 antes de continuar. La compilación y las ejecuciones con Java 21 se han comprobado por terminal durante esta revisión. La ejecución desde la interfaz de IntelliJ sigue pendiente de comprobar en mi equipo.
+Las mediciones registradas se han realizado con Microsoft OpenJDK 21.0.12.1. La compilación y las ejecuciones están comprobadas por terminal. La ejecución desde IntelliJ queda pendiente de comprobar en mi equipo.
 
 ## Captura
 
@@ -112,14 +75,7 @@ La tabla usa el tiempo que imprime cada programa con `System.currentTimeMillis()
 
 En las seis ejecuciones, los tres sensores terminaron con cinco lecturas y el riego con cinco ciclos y 7,5 litros. Las lecturas concretas y el número de alertas cambian porque los valores son aleatorios. Las salidas completas están en [docs/resultados](docs/resultados). En [resultados.json](docs/resultados/resultados.json) también se conserva la duración externa de cada proceso, separada del tiempo interno que usa esta tabla.
 
-### De dónde salen los tiempos esperados
-
-| Dispositivo | Cálculo de sus esperas | Tiempo de espera previsto |
-|---|---|---:|
-| Temperatura | 5 × 400 ms | 2.000 ms |
-| Humedad | 5 × 600 ms | 3.000 ms |
-| Luz | 5 × 500 ms | 2.500 ms |
-| Riego | 5 × 700 ms | 3.500 ms |
+Con los periodos del código, las cinco esperas de temperatura suman 2.000 ms, las de humedad 3.000 ms, las de luz 2.500 ms y las del riego 3.500 ms.
 
 En la fase secuencial sumo las cuatro duraciones: `2000 + 3000 + 2500 + 3500 = 11000 ms`. En la concurrente las esperas se solapan, así que la referencia es la duración más larga: `max(2000, 3000, 2500, 3500) = 3500 ms`, correspondiente al riego.
 
@@ -145,13 +101,7 @@ Los hilos tienen sentido aquí porque hay esperas largas y tareas independientes
 
 Creo un objeto `Luz`, lo paso a `new Thread(sensorA, "hilo-ExpA")`, lo arranco y consulto inmediatamente `sensorA.informe()`. Después hago `hiloA.join()` y vuelvo a consultar el mismo objeto.
 
-En las ejecuciones registradas, el primer informe y el informe posterior son los siguientes en cuanto a número de lecturas:
-
-| Ejecución | Lecturas antes de `join()` | Lecturas después de `join()` |
-|---:|---:|---:|
-| 1 | 0 | 5 |
-| 2 | 0 | 5 |
-| 3 | 0 | 5 |
+En las tres ejecuciones registradas, el primer informe mostraba cero lecturas. Después de `join()`, el mismo sensor mostraba las cinco lecturas completas.
 
 No puedo concluir que el primer informe siempre vaya a salir vacío. `start()` no espera a que se hayan completado las cinco lecturas. El sensor puede haber avanzado cuando `main` consulta sus campos. Además, esa consulta temprana lee estadísticas que otro hilo está modificando sin coordinar esa lectura. Ni siquiera tengo garantizada una fotografía coherente de todos los campos.
 
@@ -161,11 +111,11 @@ Después de un `join()` que termina normalmente, la tarea ya ha acabado y el inf
 
 ### Experimento B: llamar a `run()` directamente
 
-Creo un riego nuevo, pongo `ciclosTotales = 3` y llamo a `riegoB.run()`. Los tiempos medidos durante la revisión fueron 2.146, 2.162 y 2.145 ms, próximos a `3 × 700 = 2100 ms`. El objeto termina con estado `NEW` en las tres ejecuciones.
+Creo un riego nuevo, pongo `ciclosTotales = 3` y llamo a `riegoB.run()`. Los tiempos medidos registrados fueron 2.146, 2.162 y 2.145 ms, próximos a `3 × 700 = 2100 ms`. El objeto termina con estado `NEW` en las tres ejecuciones.
 
 La llamada directa a `run()` es una llamada de método que ejecuta `main`. No arranca el hilo representado por el objeto. Por eso el objeto continúa en `NEW`, aunque el código del riego ya haya realizado tres ciclos. Las dos aperturas de esos tres ciclos equivalen a 5 litros, aunque este experimento no imprime el informe del riego.
 
-**Qué nombre aparece:** el log muestra `[main]`. Dentro de `ProgramadorRiego.run()` uso `Thread.currentThread().getName()` para identificar al hilo que está ejecutando el ciclo. El objeto conserva el nombre `riego`, pero en esta llamada directa el trabajo lo realiza `main`.
+El log muestra `[main]`. Dentro de `ProgramadorRiego.run()` uso `Thread.currentThread().getName()` para identificar al hilo que está ejecutando el ciclo. El objeto conserva el nombre `riego`, pero en esta llamada directa el trabajo lo realiza `main`.
 
 En la fase secuencial, tanto los sensores como el riego muestran `main` porque todo se ejecuta con llamadas directas a `run()`. En la fase concurrente, el riego muestra `[riego]` porque allí sí arranco ese hilo con `start()`.
 
@@ -198,13 +148,11 @@ La tabla distingue lo que significa cada estado de lo que se ha llegado a observ
 
 El bloque periódico del vigilante consulta los cuatro dispositivos. También muestro temperatura, humedad, luz y riego antes de sus `start()` y después de los cuatro `join()`. Así puedo comprobar los cuatro objetos en los momentos inicial y final, sin depender de que el vigilante los capture justo entonces.
 
-#### ¿Por qué termina el programa si el vigilante sigue en su bucle?
+¿Por qué termina el programa si el vigilante sigue en su bucle?
 
 Antes de arrancarlo llamo a `hiloVigilante.setDaemon(true)`. Los cuatro dispositivos y `main` son los hilos normales que mantienen viva esta ejecución. Cuando terminan los dispositivos, sus `join()` permiten que `main` continúe y termine también. Si solo queda el vigilante demonio, este no impide el cierre de la JVM.
 
 No hay una condición oculta que ponga su `while (true)` a falso. El cierre puede cortar al demonio sin una última impresión ni una despedida. Por eso no usaría este comportamiento para una tarea que tenga que guardar datos o cerrar una válvula física antes de salir.
-
-### Qué hago si se interrumpe la espera
 
 En las fases 2, 3 y 4, si un `join()` lanza `InterruptedException`, muestro el aviso y salgo de `main` con `return`. Así no presento como definitivo un informe que todavía podría estar incompleto ni unos estados finales que aún no he comprobado. Este `return` sigue la forma de salir que usa el ejemplo de Cocina cuando se interrumpe su espera.
 
@@ -222,13 +170,13 @@ Salir de `main` no cancela los trabajadores que ya están arrancados. Estos pued
 | Reutilización | No puedo volver a llamar a `start()` sobre el mismo hilo. | Puedo pasar una tarea a otro hilo, si su estado permite reutilizarla. | Mis sensores acumulan estadísticas: para una ejecución limpia creo objetos nuevos. |
 | Estadísticas | No las calcula automáticamente. | Tampoco las calcula automáticamente. | Las programo en `Sensor` y en el riego y las leo al terminar. |
 
-#### ¿Por qué los sensores solo pueden ser Runnable en mi diseño?
+¿Por qué los sensores solo pueden ser Runnable en mi diseño?
 
 `Temperatura`, `Humedad` y `Luz` ya extienden `Sensor`, que reúne lo que tienen en común. Java no permite que una clase extienda simultáneamente `Sensor` y `Thread`. Mantengo esa herencia y hago que `Sensor` implemente `Runnable`. Así las tres clases son tareas sin duplicar el bucle y las estadísticas.
 
 La limitación se refiere al diseño que pide la práctica. No significa que Java prohíba que un sensor sea un hilo en cualquier diseño: podría cambiar la jerarquía y hacer que `Sensor` heredase de `Thread`, pero entonces ya no estaría utilizando el modelo de tareas que se solicita aquí.
 
-#### ¿Qué forma elegiría para el riego y por qué?
+¿Qué forma elegiría para el riego y por qué?
 
 En esta práctica mantengo `extends Thread` porque el enunciado pide usar las dos formas y quiero ver la diferencia con los sensores. El constructor `super("riego")` deja el nombre del hilo fijado desde el principio y puedo arrancarlo directamente.
 
